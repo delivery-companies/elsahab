@@ -26,8 +26,10 @@ export interface Transaction {
   } | null;
 }
 
-export interface GetStatisticsResponse {
+export interface GetTransactionsResponse {
   status: string;
+  page: number;
+  pagesCount: number;
   totalDepoist: number;
   totalWithdraw: number;
   total: number;
@@ -37,14 +39,9 @@ export interface GetStatisticsResponse {
   branchProfit: number;
   forClients: number;
   paidToClients: number;
-}
-
-export interface GetTransactionsResponse {
-  status: string;
-  page: number;
-  pagesCount: number;
   data: Report[];
 }
+
 export interface CompanyNetReport {
   employeeId: number;
   employeeName: string;
@@ -88,7 +85,7 @@ export const getTransactionsService = async (
   }: OrdersFilter = {
     page: 1,
     size: 10,
-  },
+  }
 ) => {
   const response = await api.get<GetTransactionsResponse>("/transactions", {
     params: {
@@ -101,38 +98,6 @@ export const getTransactionsService = async (
       end_date: end_date || undefined,
     },
   });
-
-  return response.data;
-};
-
-export const getTransactionsStatistics = async (
-  {
-    page = 1,
-    size = 10,
-    delivery_agent_id,
-    type,
-    client_id,
-    start_date,
-    end_date,
-  }: OrdersFilter = {
-    page: 1,
-    size: 10,
-  },
-) => {
-  const response = await api.get<GetStatisticsResponse>(
-    "/transactions/statistics",
-    {
-      params: {
-        page,
-        size,
-        deliveryAgentId: delivery_agent_id || undefined,
-        clientId: client_id || undefined,
-        type: type || undefined,
-        start_date: start_date || undefined,
-        end_date: end_date || undefined,
-      },
-    },
-  );
 
   return response.data;
 };
@@ -154,19 +119,19 @@ export const getRecevingAgentClientService = async ({
         start_date: start_date || undefined,
         end_date: end_date || undefined,
       },
-    },
+    }
   );
   return response.data;
 };
 
 export const getCompanyNetReportsService = async (
-  { page = 1, size = 10 }: CompanyNetFilters = { page: 1, size: 10 },
+  { page = 1, size = 10 }: CompanyNetFilters = { page: 1, size: 10 }
 ) => {
   const response = await api.get<GetCompanyNetReportsResponse>(
     "/transactions/getWallets",
     {
       params: { page, size },
-    },
+    }
   );
   return response.data;
 };

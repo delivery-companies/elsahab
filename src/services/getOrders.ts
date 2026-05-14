@@ -123,6 +123,10 @@ export interface Order {
     id: number;
     name: string;
   };
+  company: {
+    id: number;
+    name: string;
+  };
   confirmed: boolean;
   inquiryEmployees: OrderInquiryEmployee[];
   forwarded: boolean;
@@ -216,7 +220,8 @@ export interface OrdersFilter extends Filters {
   recipient_phone?: string;
   recipient_address?: string;
   deleted?: boolean;
-  removeRepeated?: boolean;
+  notForwared?: boolean;
+  forwarededTo?: boolean;
   client_report?: string | null;
   repository_report?: string | null;
   branch_report?: string | null;
@@ -234,7 +239,6 @@ export interface OrdersFilter extends Filters {
   forwardedToGov?: boolean;
   getIncoming?: boolean;
   getOutComing?: boolean;
-  forChilds?: boolean;
   delivered?: boolean;
   orderType?: string;
   notes?: string;
@@ -290,8 +294,8 @@ export const getOrdersService = async (
     updated_by,
     created_by,
     notes,
-    removeRepeated,
-    forChilds,
+    notForwared,
+    forwarededTo,
   }: OrdersFilter = { page: 1, size: 10 },
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
@@ -324,7 +328,8 @@ export const getOrdersService = async (
       orderType: orderType || undefined,
       notes: notes || undefined,
       deleted,
-      removeRepeated,
+      notForwared,
+      forwarededTo,
       order_id: order_id ? order_id : undefined,
       processingStatus: processingStatus || undefined,
       statuses: statuses?.join(",") || undefined,
@@ -350,7 +355,6 @@ export const getOrdersService = async (
       receipt_numbers: receipt_numbers?.length
         ? receipt_numbers.join(",")
         : undefined,
-      forChilds,
     },
   });
   return response.data;
@@ -372,7 +376,6 @@ export const getRepositoryOrders = async (
     getOutComing,
     to_repository_id,
     branch_id,
-    forChilds,
   }: OrdersFilter = { page: 1, size: 10 },
 ) => {
   const response = await api.get<GetOrdersResponse>(
@@ -393,7 +396,6 @@ export const getRepositoryOrders = async (
         getIncoming: getIncoming || undefined,
         getOutComing: getOutComing || undefined,
         branchId: branch_id || undefined,
-        forChilds,
       },
     },
   );

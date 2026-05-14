@@ -62,11 +62,10 @@ export const ReportsScreen = () => {
                   <>
                     <Tabs.Tab value="COMPANY">شركة</Tabs.Tab>
                     <Tabs.Tab value="GOVERNORATE">محافظة</Tabs.Tab>
+                    <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
                   </>
                 ) : null}
                 <Tabs.Tab value="REPOSITORY">مخزن</Tabs.Tab>
-                <Tabs.Tab value="BRANCH">فرع</Tabs.Tab>
-
                 <Tabs.Tab value="DELIVERY_AGENT">مندوب</Tabs.Tab>
               </>
             )}
@@ -80,11 +79,11 @@ export const ReportsScreen = () => {
             <Tabs.Panel value="GOVERNORATE">
               <GovernorateReportsView />
             </Tabs.Panel>
+            <Tabs.Panel value="BRANCH">
+              <BranchReportsView />
+            </Tabs.Panel>
           </>
         ) : null}
-        <Tabs.Panel value="BRANCH">
-          <BranchReportsView />
-        </Tabs.Panel>
         <Tabs.Panel value="REPOSITORY">
           <RepositoryReportsView />
         </Tabs.Panel>

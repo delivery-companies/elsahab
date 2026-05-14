@@ -20,10 +20,10 @@ export const ChangeOrdersClient = () => {
     minified: true,
   });
   const [selectedClient, setSelectedClient] = useState<string | undefined>(
-    undefined,
+    undefined
   );
   const [selectedStore, setSelectedStore] = useState<string | undefined>(
-    undefined,
+    undefined
   );
 
   const {
@@ -80,7 +80,6 @@ export const ChangeOrdersClient = () => {
           clearable
           onChange={(e) => {
             setSelectedClient(e || undefined);
-            setSelectedStore(undefined);
           }}
           placeholder="اختر العميل"
           data={getSelectOptions(clientsData?.data || [])}
@@ -94,17 +93,6 @@ export const ChangeOrdersClient = () => {
           searchable
           clearable
           onChange={(e) => {
-            if (e) {
-              const store = storesData.data.find((s) => s.id === +e);
-
-              if (store) {
-                setSelectedClient(
-                  clientsData?.data.find((c) => c.id === store?.clientId)?.id +
-                    "",
-                );
-              }
-            }
-
             setSelectedStore(e || undefined);
           }}
           placeholder="اختر المتجر"

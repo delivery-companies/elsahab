@@ -26,7 +26,6 @@ export interface BranchFilters extends Filters {
   governorate?: keyof typeof governorateArabicNames;
   location_id?: number;
   getAll?: string;
-  myBranchs?: boolean;
 }
 
 export const getBranchesService = async (
@@ -37,11 +36,10 @@ export const getBranchesService = async (
     location_id,
     minified,
     getAll,
-    myBranchs,
   }: BranchFilters = {
     page: 1,
     size: 10,
-  },
+  }
 ) => {
   const response = await api.get<GetRepositoriesResponse>(getBranchesEndpoint, {
     params: {
@@ -50,7 +48,6 @@ export const getBranchesService = async (
       governorate: governorate || undefined,
       location_id: location_id || undefined,
       minified: minified || undefined,
-      myBranchs: myBranchs || undefined,
       getAll: getAll || undefined,
     },
   });

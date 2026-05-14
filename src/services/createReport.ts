@@ -22,7 +22,6 @@ type CreateReportWithAllOrdersPayload = {
   baghdadDeliveryCost?: number;
   governoratesDeliveryCost?: number;
   deliveryAgentDeliveryCost?: number;
-  forChilds?: boolean;
 };
 
 export type CreateReportWithIDsPayload = {
@@ -40,7 +39,6 @@ export type CreateReportWithIDsPayload = {
   baghdadDeliveryCost?: number | undefined;
   governoratesDeliveryCost?: number | undefined;
   deliveryAgentDeliveryCost?: number | undefined;
-  forChilds?: boolean;
 };
 
 export type CreateReportPayload =
@@ -57,7 +55,7 @@ export const createReportService = async (data: CreateReportPayload) => {
       {
         responseType: "arraybuffer",
         params: reduceUnusedReportsFilters(data.params),
-      },
+      }
     );
 
     const contentType = response.headers["content-type"];

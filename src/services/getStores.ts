@@ -7,7 +7,6 @@ export interface Store {
   name: string;
   notes: string;
   logo: string;
-  clientId: number;
   client: {
     id: number;
     name: string;
@@ -43,7 +42,7 @@ export const getStoresService = async (
   }: Filters = {
     page: 1,
     size: 10,
-  },
+  }
 ) => {
   const response = await api.get<GetStoresResponse>(getStoresEndpoint, {
     params: {

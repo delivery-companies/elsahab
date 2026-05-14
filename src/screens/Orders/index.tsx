@@ -51,7 +51,6 @@ export const ordersFilterInitialState: OrdersFilter = {
   repository_report: "0",
   processingStatus: "",
   forwarded_by_id: undefined,
-  removeRepeated: false,
 };
 
 interface OrdersSearchParameters {
@@ -153,16 +152,17 @@ export const OrdersScreen = () => {
       />
       <div className="relative mt-12">
         <LoadingOverlay visible={isInitialLoading} />
-        <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
-
+        {role === "ACCOUNT_MANAGER" || role === "COMPANY_MANAGER" ? (
+          <OrdersStatistics ordersMetaData={orders.data.ordersMetaData} />
+        ) : null}
         <OrdersTable
           navigationURL={
             // eslint-disable-next-line no-nested-ternary
             role === "CLIENT"
               ? "/orders-bulk-create"
               : role !== "ADMIN_ASSISTANT" && role !== "ADMIN"
-                ? "/orders-bulk-create"
-                : ""
+              ? "/orders-bulk-create"
+              : ""
           }
           columns={
             role !== "CLIENT" && role !== "CLIENT_ASSISTANT"

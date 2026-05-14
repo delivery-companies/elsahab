@@ -6,7 +6,6 @@ import { Order } from "./getOrders";
 
 export interface EditOrderPayload {
   paidAmount?: number;
-  totalCost?: number;
   discount?: number;
   status?: keyof typeof orderStatusArabicNames;
   deliveryAgentID?: number;
@@ -61,5 +60,33 @@ export const saveOrderInRepositoryService = async ({
     status?: string;
     data?: Order[];
   }>(editOrderEndpoint + "addOrderToRepository/" + id, data);
+  return response.data;
+};
+
+export const forwardOrderService = async ({
+  data,
+  id,
+}: {
+  data: { companyId: number };
+  id: string;
+}) => {
+  const response = await api.patch<{
+    multi?: boolean;
+    status?: string;
+    data?: Order[];
+  }>(editOrderEndpoint + "forwardOrder/" + id, data);
+  return response.data;
+};
+
+export const bulkForwardOrderService = async ({
+  data,
+}: {
+  data: { companyId: number; ordersIDs: string[] };
+}) => {
+  const response = await api.post<{
+    multi?: boolean;
+    status?: string;
+    data?: Order[];
+  }>(editOrderEndpoint + "bulkForwardOrder/", data);
   return response.data;
 };

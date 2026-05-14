@@ -12,7 +12,6 @@ import { reportStatusArray } from "@/lib/reportStatusArabicNames";
 import type { ReportsFilters } from "@/services/getReports";
 import { useClients } from "@/hooks/useClients";
 import { useStores } from "@/hooks/useStores";
-import { useAuth } from "@/store/authStore";
 
 interface IReportsFilter {
   ordersFilters: OrdersFilter;
@@ -27,12 +26,11 @@ export const ClientOrdersFilter = ({
   reportsFilters,
   setReportsFilters,
 }: IReportsFilter) => {
-  const { branchId } = useAuth();
   const {
     data: clientsData = {
       data: [],
     },
-  } = useClients({ size: 100000, minified: true, branch_id: branchId });
+  } = useClients({ size: 100000, minified: true });
 
   const {
     data: employees = {

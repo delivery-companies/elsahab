@@ -13,11 +13,8 @@ import { reportsOrdersColumns } from "../reportsOrdersColumns";
 import { BranchOrdersFilters } from "./BranchOrdersFilters";
 import { BranchesOrdersStatistics } from "./BranchesOrdersStatistics";
 import { columns } from "./columns";
-import { useAuth } from "@/store/authStore";
 
 export const BranchReportsView = () => {
-  const { mainRepository } = useAuth();
-
   const [ordersFilter, setOrdersFilter] = useState<OrdersFilter>({
     ...ordersFilterInitialState,
     branch_report: "0",
@@ -27,9 +24,7 @@ export const BranchReportsView = () => {
     repository_report: undefined,
     company_report: undefined,
     delivered: undefined,
-    forChilds: !mainRepository ? true : undefined,
   });
-
   const [filters, setFilters] = useState<ReportsFilters>({
     page: 1,
     size: 10,
@@ -54,7 +49,7 @@ export const BranchReportsView = () => {
         ? ordersFilter.statuses
         : initialReportOrderStatuses,
     },
-    !!ordersFilter.branch_id && !!ordersFilter.orderType,
+    !!ordersFilter.branch_id && !!ordersFilter.orderType
   );
 
   return (

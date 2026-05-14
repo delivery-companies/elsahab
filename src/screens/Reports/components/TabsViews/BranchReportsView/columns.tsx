@@ -18,7 +18,6 @@ import { MoreHorizontal } from "lucide-react";
 import toast from "react-hot-toast";
 import { ChangeReportStatus } from "../../ChangeReportStatus";
 import { DeleteReport } from "../../DeleteReport";
-import { useReportsClientPDF } from "@/hooks/useReportsClientPDF";
 
 export const columns: ColumnDef<IReport>[] = [
   {
@@ -95,35 +94,6 @@ export const columns: ColumnDef<IReport>[] = [
         locale: Arabic,
       });
       return formateDate;
-    },
-  },
-  {
-    header: "تقرير بالعملاء",
-    cell: ({ row }) => {
-      const { id, branchReport } = row.original;
-
-      const pdfTitle = `${branchReport?.branch.name} - كشف عملاء`;
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const { mutateAsync: getReportPDF } = useReportsClientPDF(pdfTitle);
-
-      const handleClick = () => {
-        toast.promise(getReportPDF(id), {
-          loading: "جاري تحميل الكشف...",
-          success: "تم تحميل الكشف بنجاح",
-          error: (error) => error.message || "حدث خطأ ما",
-        });
-      };
-
-      return (
-        <ActionIcon
-          variant="filled"
-          color={"green"}
-          onClick={handleClick}
-          title={"إنشاء وتحميل الملف"}>
-          <IconFileTypePdf size={18} />
-        </ActionIcon>
-      );
     },
   },
   {

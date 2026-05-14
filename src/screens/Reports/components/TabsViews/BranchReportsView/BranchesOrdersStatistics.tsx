@@ -6,7 +6,6 @@ import { Button, Grid, NumberInput } from "@mantine/core";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { StatisticsItem } from "../../StatisticsItem";
-import { useAuth } from "@/store/authStore";
 
 interface BranchesOrdersStatisticsProps {
   ordersParams: OrdersFilter;
@@ -21,8 +20,6 @@ export const BranchesOrdersStatistics = ({
   ordersMetaData,
   ordersLength,
 }: BranchesOrdersStatisticsProps) => {
-  const { mainRepository } = useAuth();
-
   const [baghdadDeliveryCost, setBaghdadDeliveryCost] = useState<
     number | string | undefined
   >(undefined);
@@ -39,7 +36,6 @@ export const BranchesOrdersStatistics = ({
       branchID: Number(branchId),
       baghdadDeliveryCost: Number(baghdadDeliveryCost),
       governoratesDeliveryCost: Number(governoratesDeliveryCost),
-      forChilds: !mainRepository ? true : false,
     };
     toast.promise(
       createReport(mutationParams, {
@@ -52,7 +48,7 @@ export const BranchesOrdersStatistics = ({
         loading: "جاري تصدير الكشف",
         success: "تم تصدير الكشف بنجاح",
         error: (error) => error.message || "حدث خطأ ما",
-      },
+      }
     );
   };
 

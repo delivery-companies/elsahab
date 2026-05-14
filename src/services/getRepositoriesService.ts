@@ -4,7 +4,6 @@ import type { Filters } from "./getEmployeesService";
 
 export interface Repository {
   id: number;
-  branchId: number;
   name: string;
   mainRepository: boolean;
   type: string;
@@ -32,18 +31,10 @@ export interface GetRepositoriesResponse {
 }
 
 export const getRepositoriesService = async (
-  {
-    page = 1,
-    size = 10,
-    minified,
-    type,
-    branchId,
-    forBranch,
-    getChildBranchs,
-  }: Filters = {
+  { page = 1, size = 10, minified, type, branchId }: Filters = {
     page: 1,
     size: 10,
-  },
+  }
 ) => {
   const response = await api.get<GetRepositoriesResponse>(
     getRepositoriesEndpoint,
@@ -54,10 +45,8 @@ export const getRepositoriesService = async (
         minified,
         type,
         branchId,
-        forBranch,
-        getChildBranchs,
       },
-    },
+    }
   );
   return response.data;
 };

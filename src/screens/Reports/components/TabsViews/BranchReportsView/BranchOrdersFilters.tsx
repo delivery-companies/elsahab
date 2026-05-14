@@ -28,7 +28,7 @@ export const BranchOrdersFilters = ({
     data: branchesData = {
       data: [],
     },
-  } = useBranches({ size: 100000, minified: true, myBranchs: true });
+  } = useBranches({ size: 100000, minified: true });
 
   const {
     data: reportCreatedBy = {

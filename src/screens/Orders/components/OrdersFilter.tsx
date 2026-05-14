@@ -30,7 +30,6 @@ import {
   Menu,
   MultiSelect,
   Select,
-  Switch,
   TagsInput,
   TextInput,
   rem,
@@ -49,6 +48,7 @@ import { ExportReportModal } from "./ExportReportModal";
 import { ordersFilterInitialState } from "..";
 import { ChangeOrdersBranch } from "./ChangeOrdersBranch";
 import { useState } from "react";
+import { ForwardOrdersToCompany } from "./ForwardOrdersToCompany";
 // import { ProcessedSelectedOrders } from "./ProcessedSelectedOrders";
 
 const secondaryStatusFilter = [
@@ -293,7 +293,7 @@ OrdersFilter) => {
                 <ChangeOrdersClient />
                 <ChangeOrdersDelivery />
                 <ChangeOrdersStatus />
-                {/* <ForwardOrdersToCompany /> */}
+                <ForwardOrdersToCompany />
               </>,
             )}
             {role === "COMPANY_MANAGER" && <DeleteAllSelectedOrdersModal />}
@@ -809,55 +809,92 @@ OrdersFilter) => {
                   }}
                 />
               </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
-                <Select
-                  value={filters.created_by?.toString() || null}
-                  allowDeselect
-                  label="من قام بإنشاء الطلب"
-                  searchable
-                  clearable
-                  onChange={(e) => {
-                    setFilters({
-                      ...filters,
-                      created_by: e || "",
-                    });
-                  }}
-                  placeholder="اختر الموظف"
-                  data={getSelectOptions(employees.data)}
-                  limit={100}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
-                <Select
-                  value={filters.updated_by?.toString() || null}
-                  allowDeselect
-                  label="من قام بتحديث الطلب"
-                  searchable
-                  clearable
-                  onChange={(e) => {
-                    setFilters({
-                      ...filters,
-                      updated_by: e || "",
-                    });
-                  }}
-                  placeholder="اختر الموظف"
-                  data={getSelectOptions(employees.data)}
-                  limit={100}
-                />
-              </Grid.Col>
-              <Grid.Col span={{ base: 6, md: 6, lg: 2, sm: 12, xs: 12 }}>
-                <Switch
-                  label="حذف المكرر"
-                  placeholder=""
-                  checked={filters.removeRepeated}
-                  onChange={(e) => {
-                    setFilters({
-                      ...filters,
-                      removeRepeated: e.target.checked,
-                    });
-                  }}
-                />
-              </Grid.Col>
+              {role !== "CLIENT" &&
+              role !== "CLIENT_ASSISTANT" &&
+              role !== "EMPLOYEE_CLIENT_ASSISTANT" &&
+              role !== "ADMIN_ASSISTANT" ? (
+                <>
+                  <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
+                    <Select
+                      value={filters.created_by?.toString() || null}
+                      allowDeselect
+                      label="من قام بإنشاء الطلب"
+                      searchable
+                      clearable
+                      onChange={(e) => {
+                        setFilters({
+                          ...filters,
+                          created_by: e || "",
+                        });
+                      }}
+                      placeholder="اختر الموظف"
+                      data={getSelectOptions(employees.data)}
+                      limit={100}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
+                    <Select
+                      value={filters.updated_by?.toString() || null}
+                      allowDeselect
+                      label="من قام بتحديث الطلب"
+                      searchable
+                      clearable
+                      onChange={(e) => {
+                        setFilters({
+                          ...filters,
+                          updated_by: e || "",
+                        });
+                      }}
+                      placeholder="اختر الموظف"
+                      data={getSelectOptions(employees.data)}
+                      limit={100}
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
+                    <Select
+                      value={
+                        filters.notForwared
+                          ? "true"
+                          : filters.forwarededTo
+                            ? "false"
+                            : null
+                      }
+                      allowDeselect
+                      label="قام بتوصيلها"
+                      searchable
+                      clearable
+                      onChange={(e) => {
+                        if (e === "true") {
+                          setFilters({
+                            ...filters,
+                            notForwared: true,
+                            forwarededTo: undefined,
+                          });
+                        } else if (e === "false") {
+                          setFilters({
+                            ...filters,
+                            notForwared: undefined,
+                            forwarededTo: true,
+                          });
+                        } else {
+                          setFilters({
+                            ...filters,
+                            notForwared: undefined,
+                            forwarededTo: undefined,
+                          });
+                        }
+                      }}
+                      placeholder="اختر"
+                      data={[
+                        { label: "شركة السحاب", value: "true" },
+                        { label: "شركة أخري", value: "false" },
+                      ]}
+                      limit={100}
+                    />
+                  </Grid.Col>
+                </>
+              ) : null}
+
               <Grid.Col span={{ base: 12, md: 6, lg: 3, sm: 12, xs: 12 }}>
                 <Button
                   mt={20}

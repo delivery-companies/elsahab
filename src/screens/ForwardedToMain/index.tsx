@@ -36,7 +36,6 @@ export const ForwardedToMain = () => {
     store_id: undefined,
     governorate: undefined,
     secondaryStatus: "IN_CAR",
-    forChilds: false,
   });
   const queryClient = useQueryClient();
 
@@ -206,8 +205,8 @@ export const ForwardedToMain = () => {
                 setReceiptNumber("");
               }
             }}
-            onKeyDown={handleKeyDown}
             label="تأكيد مباشر برقم الوصل"
+            onKeyDown={handleKeyDown}
             type="text"
           />
         </Grid.Col>

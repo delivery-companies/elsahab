@@ -61,10 +61,10 @@ export const columns: ColumnDef<IReport>[] = [
     accessorKey: "deliveryCost",
     header: "مبلغ التوصيل",
   },
-  {
-    accessorKey: "deliveryAgentNet",
-    header: "صافي المندوب",
-  },
+  // {
+  //   accessorKey: "deliveryAgentNet",
+  //   header: "صافي المندوب",
+  // },
   {
     accessorKey: "companyNet",
     header: "صافى الشركه",
