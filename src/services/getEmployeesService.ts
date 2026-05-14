@@ -100,6 +100,8 @@ export interface Filters {
   roles?: (keyof typeof rolesArabicNames)[];
   permissions?: (keyof typeof permissionsArabicNames)[];
   deleted?: boolean;
+  forBranch?: boolean;
+  getChildBranchs?: boolean;
   minified?: boolean;
   store_id?: string;
   client_id?: string;
@@ -123,7 +125,7 @@ export const getEmployeesService = async (
   }: EmployeesFilters = {
     page: 1,
     size: 10,
-  }
+  },
 ) => {
   const response = await api.get<GetEmployeesResponse>(getEmployeesEndpoint, {
     params: {

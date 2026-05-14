@@ -153,6 +153,8 @@ export interface ReportsFilters extends Filters {
   client_id?: string;
   store_id?: string;
   repository_id?: string;
+  exported_repository_id?: string;
+  target_repository_id?: string;
   branch_id?: string | null;
   delivery_agent_id?: string;
   governorate?: string;
@@ -182,7 +184,7 @@ export const getReportsService = async (
     created_by_id,
     types,
     orderType,
-  }: ReportsFilters = { page: 1, size: 10 }
+  }: ReportsFilters = { page: 1, size: 10 },
 ) => {
   const response = await api.get<GetReportsResponse>(getReportsEndpoint, {
     params: {

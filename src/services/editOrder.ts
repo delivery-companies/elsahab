@@ -6,6 +6,7 @@ import { Order } from "./getOrders";
 
 export interface EditOrderPayload {
   paidAmount?: number;
+  totalCost?: number;
   discount?: number;
   status?: keyof typeof orderStatusArabicNames;
   deliveryAgentID?: number;

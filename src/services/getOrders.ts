@@ -242,6 +242,7 @@ export interface OrdersFilter extends Filters {
   delivered?: boolean;
   orderType?: string;
   notes?: string;
+  forChilds?: boolean;
 }
 
 export const getOrdersService = async (

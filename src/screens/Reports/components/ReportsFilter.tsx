@@ -6,6 +6,7 @@ import { convertDateFormat } from "@/lib/convertDate";
 import { getSelectOptions } from "@/lib/getSelectOptions";
 import { governorateArray } from "@/lib/governorateArabicNames ";
 import { reportStatusArray } from "@/lib/reportStatusArabicNames";
+import { reportTypeArray } from "@/lib/reportTypeArabicNames";
 import type { ReportsFilters as IReportsFilters } from "@/services/getReports";
 import { Accordion, Button, Grid, Select } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
@@ -14,9 +15,14 @@ import "dayjs/locale/ar";
 interface IReportsFilter {
   filters: IReportsFilters;
   setFilters: React.Dispatch<React.SetStateAction<IReportsFilters>>;
+  showType?: boolean;
 }
 
-export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
+export const ReportsFilter = ({
+  filters,
+  setFilters,
+  showType,
+}: IReportsFilter) => {
   const {
     data: clientsData = {
       data: [],
@@ -79,9 +85,29 @@ export const ReportsFilter = ({ filters, setFilters }: IReportsFilter) => {
         <Accordion.Control>فلاتر الكشوفات</Accordion.Control>
         <Accordion.Panel>
           <Grid align="center" gutter="lg" grow>
+            {showType && (
+              <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
+                <Select
+                  value={filters.type}
+                  allowDeselect
+                  label="نوع الكشف"
+                  searchable
+                  clearable
+                  onChange={(e) => {
+                    setFilters({
+                      ...filters,
+                      type: e || "",
+                    });
+                  }}
+                  placeholder="اختر نوع الكشف"
+                  data={reportTypeArray}
+                />
+              </Grid.Col>
+            )}
+
             <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>
               <Select
-                value={filters.type}
+                value={filters.created_by_id}
                 allowDeselect
                 label="ساحب الكشف"
                 searchable
