@@ -10,6 +10,7 @@ import { governorateArray } from "@/lib/governorateArabicNames ";
 import { reportOrderStatuses } from "@/lib/reportOrderStatuses";
 import { reportStatusArray } from "@/lib/reportStatusArabicNames";
 import type { ReportsFilters } from "@/services/getReports";
+import { useAuth } from "@/store/authStore";
 
 interface IReportsFilter {
   ordersFilters: OrdersFilter;
@@ -24,6 +25,7 @@ export const CompanyOrdersFilter = ({
   reportsFilters,
   setReportsFilters,
 }: IReportsFilter) => {
+  const { companyID } = useAuth();
   const {
     data: reportCreatedBy = {
       data: [],
@@ -104,7 +106,9 @@ export const CompanyOrdersFilter = ({
               });
             }}
             placeholder="اختر الشركة "
-            data={getSelectOptions(tenantsData.data)}
+            data={getSelectOptions(
+              tenantsData.data.filter((c) => c.id !== +companyID),
+            )}
           />
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 4, lg: 4, sm: 12, xs: 12 }}>

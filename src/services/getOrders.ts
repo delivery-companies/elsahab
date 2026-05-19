@@ -242,6 +242,7 @@ export interface OrdersFilter extends Filters {
   delivered?: boolean;
   orderType?: string;
   notes?: string;
+  forwarededForReport?: boolean;
   forChilds?: boolean;
 }
 
@@ -297,6 +298,7 @@ export const getOrdersService = async (
     notes,
     notForwared,
     forwarededTo,
+    forwarededForReport,
   }: OrdersFilter = { page: 1, size: 10 },
 ) => {
   const response = await api.get<GetOrdersResponse>(getOrdersEndpoint, {
@@ -331,6 +333,7 @@ export const getOrdersService = async (
       deleted,
       notForwared,
       forwarededTo,
+      forwarededForReport,
       order_id: order_id ? order_id : undefined,
       processingStatus: processingStatus || undefined,
       statuses: statuses?.join(",") || undefined,
