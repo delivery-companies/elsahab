@@ -217,6 +217,11 @@ function App() {
             <Route path="/repository-entries" element={<RepositoryEntries />} />
             <Route path="/repository-outputs" element={<CustomerReturns />} />
             <Route path="/repository-orders" element={<RepositoryOrders />} />
+            <Route path="/forwarded" element={<ForwardedOrders />} />
+            <Route
+              path="/forwarded-to-company"
+              element={<ForwardedOrdersToCompany />}
+            />
             <Route path="/repository-reports" element={<RepositoryReports />} />
             <Route path="/incoming-orders" element={<IncomingOrders />} />
             <Route path="/outcoming-orders" element={<ExportedOrders />} />
@@ -243,8 +248,13 @@ function App() {
 
         {role === "BRANCH_MANAGER" ? (
           <Route element={<RolesRoute roles={["BRANCH_MANAGER"]} />}>
-            <Route path="/treasury" element={<TreasuryScreen />} />x
+            <Route path="/treasury" element={<TreasuryScreen />} />
             <Route path="/repository-entries" element={<RepositoryEntries />} />
+            <Route path="/forwarded" element={<ForwardedOrders />} />
+            <Route
+              path="/forwarded-to-company"
+              element={<ForwardedOrdersToCompany />}
+            />
             <Route path="/repository-outputs" element={<CustomerReturns />} />
             <Route path="/repository-orders" element={<RepositoryOrders />} />
             <Route path="/repository-reports" element={<RepositoryReports />} />
