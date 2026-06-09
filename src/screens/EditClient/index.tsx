@@ -9,6 +9,7 @@ import { editClientService } from "@/services/editClient";
 import {
   Button,
   Grid,
+  NumberInput,
   PasswordInput,
   Select,
   Switch,
@@ -24,8 +25,10 @@ import toast from "react-hot-toast";
 import { useNavigate, useParams } from "react-router-dom";
 import type { z } from "zod";
 import { editClientSchema } from "./schema";
+import { useAuth } from "@/store/authStore";
 
 export const EditClient = () => {
+  const { role } = useAuth();
   const { id = "" } = useParams();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -52,18 +55,28 @@ export const EditClient = () => {
       companyID: "",
       showNumbers: false,
       showDeliveryNumber: false,
+      deliveryAgentProfit: 0,
+      mainBranchProfit: 0,
+      forwardedBranchProfit: 0,
+      receivingBranchProfit: 0,
     },
   });
 
   useEffect(() => {
     if (clientDetails) {
       const avatarAddress = clientDetails.data.avatar;
+      console.log(clientDetails);
+
       form.setValues({
         name: clientDetails.data.name,
         phone: clientDetails.data.phone,
         branch: clientDetails.data.branch?.id.toString(),
         showNumbers: clientDetails.data.showNumbers,
         showDeliveryNumber: clientDetails.data.showDeliveryNumber,
+        deliveryAgentProfit: clientDetails.data.deliveryAgentProfit || 0,
+        mainBranchProfit: clientDetails.data.mainBranchProfit || 0,
+        forwardedBranchProfit: clientDetails.data.forwardedBranchProfit || 0,
+        receivingBranchProfit: clientDetails.data.receivingBranchProfit || 0,
         type: clientDetails.data.isExternal
           ? "EXTERNAL"
           : clientDetails.data.role,
@@ -97,7 +110,18 @@ export const EditClient = () => {
     formData.append("username", values.phone);
     formData.append("branchID", values.branch);
     formData.append("showNumbers", String(values.showNumbers ?? false));
-
+    if (role === "COMPANY_MANAGER") {
+      formData.append("deliveryAgentProfit", values.deliveryAgentProfit + "");
+      formData.append("mainBranchProfit", values.mainBranchProfit + "");
+      formData.append(
+        "forwardedBranchProfit",
+        values.forwardedBranchProfit + "",
+      );
+      formData.append(
+        "receivingBranchProfit",
+        values.receivingBranchProfit + " ",
+      );
+    }
     formData.append(
       "showDeliveryNumber",
       String(values.showDeliveryNumber ?? false),
@@ -191,6 +215,50 @@ export const EditClient = () => {
               disabled={form.getValues().type === "EXTERNAL"}
             />
           </Grid.Col>
+          {role === "COMPANY_MANAGER" && (
+            <>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح المندوب"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("deliveryAgentProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع الرئيسي"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("mainBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع المصدر"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("forwardedBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع المستلم"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("receivingBranchProfit")}
+                />
+              </Grid.Col>
+            </>
+          )}
           {/* {isAdminOrAdminAssistant && (
             <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
               <Select

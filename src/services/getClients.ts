@@ -11,6 +11,10 @@ export interface Client {
   phone: string;
   username: string; // add username to the payload
   avatar: string | null;
+  deliveryAgentProfit: number | null;
+  mainBranchProfit: number | null;
+  forwardedBranchProfit: number | null;
+  receivingBranchProfit: number | null;
   role: keyof typeof clientTypeArabicNames;
   showNumbers: boolean;
   showDeliveryNumber: boolean;
@@ -50,7 +54,7 @@ export const getClientsService = async (
   }: ClientsFilters = {
     page: 1,
     size: 10,
-  }
+  },
 ) => {
   const response = await api.get<GetClientsResponse>(getClientsEndpoint, {
     params: {

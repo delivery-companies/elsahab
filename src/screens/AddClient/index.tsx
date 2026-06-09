@@ -12,6 +12,7 @@ import { useAuth } from "@/store/authStore";
 import {
   Button,
   Grid,
+  NumberInput,
   PasswordInput,
   Select,
   Switch,
@@ -58,6 +59,10 @@ export const AddClient = () => {
       companyID: "",
       showNumbers: false,
       showDeliveryNumber: false,
+      deliveryAgentProfit: 0,
+      mainBranchProfit: 0,
+      forwardedBranchProfit: 0,
+      receivingBranchProfit: 0,
     },
   });
 
@@ -80,6 +85,18 @@ export const AddClient = () => {
     formData.append("branchID", values.branch);
     formData.append("role", "CLIENT");
     formData.append("password", values.password);
+    if (role === "COMPANY_MANAGER") {
+      formData.append("deliveryAgentProfit", values.deliveryAgentProfit + "");
+      formData.append("mainBranchProfit", values.mainBranchProfit + "");
+      formData.append(
+        "forwardedBranchProfit",
+        values.forwardedBranchProfit + "",
+      );
+      formData.append(
+        "receivingBranchProfit",
+        values.receivingBranchProfit + " ",
+      );
+    }
     formData.append("showNumbers", String(values.showNumbers ?? false));
     formData.append(
       "showDeliveryNumber",
@@ -199,6 +216,50 @@ export const AddClient = () => {
               disabled={form.getValues().type === "EXTERNAL"}
             />
           </Grid.Col>
+          {role === "COMPANY_MANAGER" && (
+            <>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح المندوب"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("deliveryAgentProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع الرئيسي"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("mainBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع المصدر"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("forwardedBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <NumberInput
+                  label="ربح الفرع المستلم"
+                  placeholder=""
+                  min={0}
+                  size="md"
+                  className="w-full"
+                  {...form.getInputProps("receivingBranchProfit")}
+                />
+              </Grid.Col>
+            </>
+          )}
           <Grid.Col span={{ base: 12, md: 12, lg: 12, sm: 12, xs: 12 }}>
             <ImageUploader
               image={form.values.avatar}

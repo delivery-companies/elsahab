@@ -11,6 +11,10 @@ export const editClientSchema = z
     avatar: z.any(),
     type: z.string().min(1, { message: "الرجاء اختيار نوع الحساب" }),
     companyID: z.string().min(1, { message: "الرجاء اختيار الشركة" }),
+    deliveryAgentProfit: z.number().optional(),
+    mainBranchProfit: z.number().optional(),
+    forwardedBranchProfit: z.number().optional(),
+    receivingBranchProfit: z.number().optional(),
     showNumbers: z.boolean().optional(),
     showDeliveryNumber: z.boolean().optional(),
     password: z
@@ -25,7 +29,7 @@ export const editClientSchema = z
         (confirmPassword) => !confirmPassword || confirmPassword.length >= 6,
         {
           message: "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل",
-        }
+        },
       )
       .optional(),
   })
@@ -39,7 +43,7 @@ export const editClientSchema = z
     {
       message: "كلمة المرور غير متطابقة",
       path: ["confirmPassword"],
-    }
+    },
   )
   .refine(
     (data) => {
@@ -51,5 +55,5 @@ export const editClientSchema = z
     {
       message: "كلمة المرور غير متطابقة",
       path: ["confirmPassword"],
-    }
+    },
   );

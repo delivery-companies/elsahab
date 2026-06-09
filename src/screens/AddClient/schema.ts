@@ -10,6 +10,10 @@ export const addClientSchema = z
     branch: z.string(),
     avatar: z.any(),
     type: z.string().optional(),
+    deliveryAgentProfit: z.number().optional(),
+    mainBranchProfit: z.number().optional(),
+    forwardedBranchProfit: z.number().optional(),
+    receivingBranchProfit: z.number().optional(),
     companyID: z.string().min(1, { message: "الرجاء اختيار الشركة" }),
     password: z.string().min(6, { message: "كلمة المرور يجب ان تكون 6 احرف" }),
     confirmPassword: z
