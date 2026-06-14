@@ -58,6 +58,7 @@ export const AddClient = () => {
       confirmPassword: "",
       companyID: "",
       showNumbers: false,
+      activeProfit: false,
       showDeliveryNumber: false,
       deliveryAgentProfit: 0,
       mainBranchProfit: 0,
@@ -96,6 +97,7 @@ export const AddClient = () => {
         "receivingBranchProfit",
         values.receivingBranchProfit + " ",
       );
+      formData.append("activeProfit", String(values.activeProfit ?? false));
     }
     formData.append("showNumbers", String(values.showNumbers ?? false));
     formData.append(
@@ -256,6 +258,13 @@ export const AddClient = () => {
                   size="md"
                   className="w-full"
                   {...form.getInputProps("receivingBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <Switch
+                  label="تفعيل المسار"
+                  defaultChecked={false}
+                  {...form.getInputProps("activeProfit")}
                 />
               </Grid.Col>
             </>

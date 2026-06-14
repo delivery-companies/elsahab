@@ -55,6 +55,7 @@ export const EditClient = () => {
       companyID: "",
       showNumbers: false,
       showDeliveryNumber: false,
+      activeProfit: false,
       deliveryAgentProfit: 0,
       mainBranchProfit: 0,
       forwardedBranchProfit: 0,
@@ -65,7 +66,6 @@ export const EditClient = () => {
   useEffect(() => {
     if (clientDetails) {
       const avatarAddress = clientDetails.data.avatar;
-      console.log(clientDetails);
 
       form.setValues({
         name: clientDetails.data.name,
@@ -75,6 +75,7 @@ export const EditClient = () => {
         showDeliveryNumber: clientDetails.data.showDeliveryNumber,
         deliveryAgentProfit: clientDetails.data.deliveryAgentProfit || 0,
         mainBranchProfit: clientDetails.data.mainBranchProfit || 0,
+        activeProfit: clientDetails.data.activeProfit,
         forwardedBranchProfit: clientDetails.data.forwardedBranchProfit || 0,
         receivingBranchProfit: clientDetails.data.receivingBranchProfit || 0,
         type: clientDetails.data.isExternal
@@ -121,6 +122,7 @@ export const EditClient = () => {
         "receivingBranchProfit",
         values.receivingBranchProfit + " ",
       );
+      formData.append("activeProfit", String(values.activeProfit ?? false));
     }
     formData.append(
       "showDeliveryNumber",
@@ -255,6 +257,13 @@ export const EditClient = () => {
                   size="md"
                   className="w-full"
                   {...form.getInputProps("receivingBranchProfit")}
+                />
+              </Grid.Col>
+              <Grid.Col span={{ base: 12, md: 6, lg: 6, sm: 12, xs: 12 }}>
+                <Switch
+                  label="تفعيل المسار"
+                  defaultChecked={clientDetails?.data.activeProfit}
+                  {...form.getInputProps("activeProfit")}
                 />
               </Grid.Col>
             </>

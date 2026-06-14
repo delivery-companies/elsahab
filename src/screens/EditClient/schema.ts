@@ -16,6 +16,7 @@ export const editClientSchema = z
     forwardedBranchProfit: z.number().optional(),
     receivingBranchProfit: z.number().optional(),
     showNumbers: z.boolean().optional(),
+    activeProfit: z.boolean().optional(),
     showDeliveryNumber: z.boolean().optional(),
     password: z
       .string()

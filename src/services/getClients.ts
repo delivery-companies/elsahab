@@ -17,6 +17,7 @@ export interface Client {
   receivingBranchProfit: number | null;
   role: keyof typeof clientTypeArabicNames;
   showNumbers: boolean;
+  activeProfit: boolean;
   showDeliveryNumber: boolean;
   isExternal: boolean;
   branch: Branch | null;
