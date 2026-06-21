@@ -34,7 +34,12 @@ const getBadgeText = (
   const statusName = orderStatusArabicNames[status];
   const repo = repositoryname || "";
 
-  if (secondaryStatus === "SEND_TO_COMPANY") {
+  if (
+    secondaryStatus === "SEND_TO_COMPANY" &&
+    status !== "DELIVERED" &&
+    status !== "REPLACED" &&
+    status !== "PARTIALLY_RETURNED"
+  ) {
     return `مرسل إلي ${company}`;
   }
 
