@@ -281,13 +281,15 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: "status",
     header: "الحالة",
     cell: ({ row }) => {
-      const { status, secondaryStatus, repository, company } = row.original;
+      const { status, secondaryStatus, repository, company, forwardedFrom } =
+        row.original;
       return (
         <OrdersBadge
           status={status}
           secondaryStatus={secondaryStatus}
           repositoryname={repository?.name}
           company={company.name}
+          forwardedFrom={forwardedFrom?.name}
         />
       );
     },

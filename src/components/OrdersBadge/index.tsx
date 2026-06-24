@@ -6,6 +6,7 @@ interface Props {
   secondaryStatus: string;
   repositoryname?: string;
   company?: string;
+  forwardedFrom?: string;
 }
 
 const statusColors: Record<keyof typeof orderStatusArabicNames, string> = {
@@ -30,9 +31,19 @@ const getBadgeText = (
   secondaryStatus: string,
   repositoryname?: string,
   company?: string,
+  forwardedFrom?: string,
 ) => {
   const statusName = orderStatusArabicNames[status];
   const repo = repositoryname || "";
+
+  if (
+    secondaryStatus === "SEND_TO_COMPANY" &&
+    (status === "RETURNED" ||
+      status === "REPLACED" ||
+      status === "PARTIALLY_RETURNED")
+  ) {
+    return `مرسل إلي ${forwardedFrom}`;
+  }
 
   if (
     secondaryStatus === "SEND_TO_COMPANY" &&
@@ -82,6 +93,7 @@ export const OrdersBadge = ({
   repositoryname,
   secondaryStatus,
   company,
+  forwardedFrom,
 }: Props) => {
   return (
     <Badge
@@ -101,7 +113,13 @@ export const OrdersBadge = ({
       }}
       size="sm"
       color={statusColors[status]}>
-      {getBadgeText(status, secondaryStatus, repositoryname, company)}
+      {getBadgeText(
+        status,
+        secondaryStatus,
+        repositoryname,
+        company,
+        forwardedFrom,
+      )}
     </Badge>
   );
 };
